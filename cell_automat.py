@@ -21,7 +21,7 @@ class Automat :
         generation = 0
         while True:
             if generation != 0 :
-                self.matrix = law(self.matrix)
+                self.matrix = law(self.matrix.copy)
             for i in range(self.a) :
                 for j in range(self.b) :
                     if self.matrix[i][j] == 0 :

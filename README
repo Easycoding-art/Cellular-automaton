@@ -1,0 +1,33 @@
+WARNING!
+It is strongly recommended to read the state from a copy of the field passed to the function when writing rules. This will allow the cellular automaton to work correctly.
+
+The project is designed for easy creation of a cellular automaton. All you need to do is to set a field with NumPy array, write a function that modifies the field and pass them to the constructor. The result of the automaton can be viewed in a special window or saved as a video.
+For convenience, the colors of cells are set by encodings :
+0 - white
+1 - black
+2 - blue
+3 - green
+4 - red
+5 - orange
+6 - yellow
+7 - blue green
+8 - marroon
+9 - lime
+10 - pink
+11 - purple
+12 - gray
+13 - magenta
+14 - brown
+15 - forest green 
+16 - navy blue
+17 - rust
+18 - dandilion yellow
+19 - highlighter
+20 - sky blue
+21 - light gray
+22 - dark gray
+23 - tan
+24 - coffee brown
+25 - moon glow
+
+You can also use cellular automata to make video effects. You need to pass the number of frames, frame length in seconds and FPS.
