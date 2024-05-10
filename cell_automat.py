@@ -14,77 +14,35 @@ class Automat :
                 (127,127,127), (255,0,230), (100,40,0), (0,50,0), (0,0,100), (210,150,75),
                 (255,200,0), (255,255,100), (0,255,255), (200,200,200), (50,50,50), (230,220,170),
                 (200,190,140), (235,245,255)]
+    
     def render(self, law, fps) :
         pg.init()
         surface = pg.display.set_mode(self.RES)
         clock = pg.time.Clock()
-        generation = 0
+        n = 0
         while True:
-            if generation != 0 :
-                self.matrix = law(self.matrix.copy)
+            if n != 0 :
+                previous_frame = self.matrix.copy()
+                self.matrix = law(previous_frame)
+                if np.array_equal(previous_frame, self.matrix) :
+                    break
             for i in range(self.a) :
                 for j in range(self.b) :
-                    if self.matrix[i][j] == 0 :
-                        surface.set_at((i, j), pg.Color('white'))
-                    elif self.matrix[i][j] == 1 :
-                        surface.set_at((i, j), pg.Color('black'))
-                    elif self.matrix[i][j] == 2 :
-                        surface.set_at((i, j), pg.Color('blue'))
-                    elif self.matrix[i][j] == 3 :
-                        surface.set_at((i, j), pg.Color('green'))
-                    elif self.matrix[i][j] == 4 :
-                        surface.set_at((i, j), pg.Color('red'))
-                    elif self.matrix[i][j] == 5 :
-                        surface.set_at((i, j), pg.Color('orange'))
-                    elif self.matrix[i][j] == 6 :
-                        surface.set_at((i, j), pg.Color('yellow'))
-                    elif self.matrix[i][j] == 7 :
-                        surface.set_at((i, j), pg.Color('blue_green'))
-                    elif self.matrix[i][j] == 8 :
-                        surface.set_at((i, j), pg.Color('marroon'))
-                    elif self.matrix[i][j] == 9 :
-                        surface.set_at((i, j), pg.Color('lime'))
-                    elif self.matrix[i][j] == 10 :
-                        surface.set_at((i, j), pg.Color('pink'))
-                    elif self.matrix[i][j] == 11 :
-                        surface.set_at((i, j), pg.Color('purple'))
-                    elif self.matrix[i][j] == 12 :
-                        surface.set_at((i, j), pg.Color('gray'))
-                    elif self.matrix[i][j] == 13 :
-                        surface.set_at((i, j), pg.Color('magenta'))
-                    elif self.matrix[i][j] == 14 :
-                        surface.set_at((i, j), pg.Color('brown'))
-                    elif self.matrix[i][j] == 15 :
-                        surface.set_at((i, j), pg.Color('forest_green '))
-                    elif self.matrix[i][j] == 16 :
-                        surface.set_at((i, j), pg.Color('navy_blue'))
-                    elif self.matrix[i][j] == 17 :
-                        surface.set_at((i, j), pg.Color('rust'))
-                    elif self.matrix[i][j] == 18 :
-                        surface.set_at((i, j), pg.Color('dandilion_yellow'))
-                    elif self.matrix[i][j] == 19 :
-                        surface.set_at((i, j), pg.Color('highlighter'))
-                    elif self.matrix[i][j] == 20 :
-                        surface.set_at((i, j), pg.Color('sky_blue'))
-                    elif self.matrix[i][j] == 21 :
-                        surface.set_at((i, j), pg.Color('light_gray'))
-                    elif self.matrix[i][j] == 22 :
-                        surface.set_at((i, j), pg.Color('dark_gray'))
-                    elif self.matrix[i][j] == 23 :
-                        surface.set_at((i, j), pg.Color('tan'))
-                    elif self.matrix[i][j] == 24 :
-                        surface.set_at((i, j), pg.Color('coffee_brown'))
-                    elif self.matrix[i][j] == 25 :
-                        surface.set_at((i, j), pg.Color('moon_glow'))
-            generation+=1
+                    surface.set_at((i, j), self.colors[self.matrix[i][j]])
             pg.display.flip()
             clock.tick(fps)
+            n+=1
 
     def get_video(self, law, name, duration, frames, FPS) :
         images = []
+        breaker = frames+1
         for n in range(frames+1) :
             if n != 0 :
-                self.matrix = law(self.matrix)
+                previous_frame = self.matrix.copy()
+                self.matrix = law(previous_frame)
+                if np.array_equal(previous_frame, self.matrix) :
+                    breaker = n
+                    break
             img  = Image.new( mode = "RGB", size = (self.a, self.b) )
             pix = img.load()
             for i in range(self.a) :
@@ -95,4 +53,6 @@ class Automat :
         final_clip = concatenate_videoclips(images, method="compose")
         final_clip.write_videofile(name + ".mp4", fps= FPS)
         for n in range(frames+1) :
+            if n == breaker :
+                break
             os.remove('img_' + str(n) + '.jpg')
