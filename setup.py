@@ -9,6 +9,6 @@ setup(
 		'pygame', 
 		'numpy',
         'moviepy',
-        'PIL'
+        'Pillow'
 	]
 ) 
