@@ -1,3 +1,5 @@
+Installing:
+pip install git+https://github.com/Easycoding-art/Cellular-automaton.git
 WARNING!
 It is strongly recommended to read the state from a copy of the field passed to the function when writing rules. This will allow the cellular automaton to work correctly.
 

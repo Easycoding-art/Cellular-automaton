@@ -1,6 +1,6 @@
 from PIL import Image
 import numpy as np
-from cell_automat import Automat
+from cell_automat.cell_automat import Automat
 from moviepy.editor import *
 import os
 
