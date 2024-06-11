@@ -6,8 +6,8 @@ import os
 
 class EffectMaker :
     def __init__(self, file_name) :
-        self.video_file = file_name
-        clip = VideoFileClip(self.video_file)
+        self.__video_file = file_name
+        clip = VideoFileClip(self.__video_file)
         clip.save_frame("frame.jpg", t = clip.duration - 1)
         im = Image.open("frame.jpg") # Can be many different formats
         pix = im.load()
@@ -32,7 +32,7 @@ class EffectMaker :
     def video(self, video_name, law, duration, frames, FPS) :
         automat = Automat(self.__matrix)
         automat.get_video(law, video_name + "_effect", duration, frames, FPS)
-        clip1 = VideoFileClip(self.video_file)
+        clip1 = VideoFileClip(self.__video_file)
         clip2 = VideoFileClip(video_name + "_effect" + ".mp4")
         final_clip = concatenate_videoclips([clip1,clip2])
         final_clip.write_videofile(video_name + ".mp4")
